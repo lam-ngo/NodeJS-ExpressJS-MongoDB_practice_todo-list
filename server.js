@@ -1,10 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-// Configuring the database
-const dbConfig = require('./config/database.config.js');
-const mongoose = require('mongoose');
-
 /*
 CONTROLLER FOR HANDLING INCOMING REQUESTS
 */
@@ -22,6 +18,9 @@ app.get('/', (req, res) => {
     res.json({"message": "Success response!"});
 });
 
+// Require Todos routes
+require('./app/routes/todos.routes.js')(app);
+
 // listen for requests
 app.listen(3005, () => {
     console.log("Server is listening on port 3005");
@@ -30,6 +29,10 @@ app.listen(3005, () => {
 /*
 DATABASE CONNECTION
 */
+// Configuring the database
+const dbConfig = require('./config/database.config.js');
+const mongoose = require('mongoose');
+
 mongoose.Promise = global.Promise;
 
 // Connecting to the database
