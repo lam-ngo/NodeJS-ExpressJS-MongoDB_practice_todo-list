@@ -2,15 +2,8 @@ const Todo = require('../models/todos.model.js');
 
 // Create and Save a new todo
 exports.create = (req, res) => {
-  // Validate request
-  if(!req.body.content) {
-      return res.status(400).send({
-          message: "Request content can not be empty!"
-      });
-  }
-
   // Create a todo
-  const todo = new Todo({ req.body });
+  const todo = new Todo(req.body);
 
   // Save todo in the database
   todo.save()
@@ -25,7 +18,14 @@ exports.create = (req, res) => {
 
 // Retrieve and return all todos from the database.
 exports.findAll = (req, res) => {
-
+  Todo.find()
+  .then(todos => {
+      res.send(todos);
+  }).catch(err => {
+      res.status(500).send({
+          message: err.message || "Some error occurred while retrieving todos."
+      });
+  });
 };
 
 // Find a single todo with a todoId
